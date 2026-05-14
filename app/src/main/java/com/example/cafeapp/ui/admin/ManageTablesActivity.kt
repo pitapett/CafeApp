@@ -33,7 +33,7 @@ class ManageTablesActivity : AppCompatActivity() {
         observeViewModel()
 
         findViewById<FloatingActionButton>(R.id.fabAddTable).setOnClickListener {
-            showTableDialog(null) // null means "Create new table"
+            showTableDialog(null)
         }
 
         viewModel.fetchTables()

@@ -40,7 +40,6 @@ class StaffDashboardActivity : AppCompatActivity() {
             .setPositiveButton("Start Order") { _, _ ->
                 val tableNum = input.text.toString()
                 if (tableNum.isNotBlank()) {
-                    // Pass the table number to the Menu screen!
                     val intent = Intent(this, StaffActivity::class.java)
                     intent.putExtra("EXTRA_TABLE_NUMBER", tableNum)
                     startActivity(intent)

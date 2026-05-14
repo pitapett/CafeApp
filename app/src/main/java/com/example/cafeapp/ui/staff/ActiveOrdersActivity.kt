@@ -26,8 +26,6 @@ class ActiveOrdersActivity : AppCompatActivity() {
 
         setupRecyclerView()
         observeViewModel()
-
-        // Fetch orders when the screen opens
         viewModel.fetchActiveOrders()
     }
 
@@ -70,7 +68,6 @@ class ActiveOrdersActivity : AppCompatActivity() {
                     }
                 }
 
-                // Observe the payment action status
                 launch {
                     viewModel.paymentStatus.collect { state ->
                         if (state is Resource.Success) {

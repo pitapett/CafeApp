@@ -27,20 +27,18 @@ class SetupActivity : AppCompatActivity() {
 
 
     private fun saveRoleAndNavigate(role: String, tableNum: String? = null) {
-        // 1. Open SharedPreferences
+
         val sharedPrefs = getSharedPreferences("CafeConfig", Context.MODE_PRIVATE)
 
-        // 2. Write the configuration
         with(sharedPrefs.edit()) {
             putString("DEVICE_ROLE", role)
             if (tableNum != null) {
                 putString("TABLE_NUMBER", tableNum)
             }
-            apply() // apply() is asynchronous, commit() is synchronous
+            apply()
         }
 
-        // 3. Bounce back to RouterActivity to let it handle the actual UI routing
         startActivity(Intent(this, RouterActivity::class.java))
-        finish() // Destroy SetupActivity so we can't go back to it
+        finish()
     }
 }

@@ -9,7 +9,7 @@ class TableRepository(private val apiService: CafeApiService) {
     suspend fun createTable(request: TableRequest) = apiService.createTable(request)
     suspend fun updateTable(id: String, request: TableRequest) = apiService.updateTable(id, request)
     suspend fun deleteTable(id: String) = apiService.deleteTable(id)
-    // Add this line inside your TableRepository class
+
     suspend fun updateTableStatus(id: String, status: String) = apiService.updateTableStatus(id,
         TableStatusRequest(status)
     )

@@ -47,11 +47,9 @@ class CartDetailAdapter(
             tvPrice.text = "Rp ${(item.price * item.quantity).toInt()}"
             tvQuantity.text = item.quantity.toString()
 
-            // Temporarily remove listener to prevent loops during recycling
             etCustomization.onFocusChangeListener = null
             etCustomization.setText(item.customization)
 
-            // Save customization to DB only when user taps away from the keyboard
             etCustomization.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     onCustomizationSave(item, etCustomization.text.toString())

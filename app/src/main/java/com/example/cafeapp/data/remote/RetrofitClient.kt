@@ -7,11 +7,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    // Replace with your computer's actual IPv4 address
+    // wifi ipv4 port
     private const val BASE_URL = "http://192.168.1.8:3000/api/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY // Logs API requests/responses in Logcat
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
     private val client = OkHttpClient.Builder()

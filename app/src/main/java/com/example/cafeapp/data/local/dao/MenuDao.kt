@@ -12,16 +12,16 @@ import kotlinx.coroutines.flow.Flow
 interface MenuDao {
 
     // Fetch all cached menus.
-    // Returning a Flow means the UI will update automatically if the database changes!
+    // UI will update automatically if the there is change in database
     @Query("SELECT * FROM menu_table ORDER BY category ASC")
     fun getAllLocalMenus(): Flow<List<MenuEntity>>
 
     // Insert new menus from the API.
-    // REPLACE means if a menu item already exists (same ID), it will update it.
+    // if a menu item already exists, it will update it
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMenus(menus: List<MenuEntity>)
 
-    // Optional: Clear the table if you want a fresh sync
+    // clear the table for a fresh sync
     @Query("DELETE FROM menu_table")
     suspend fun clearMenus()
 }

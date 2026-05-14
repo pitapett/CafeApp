@@ -32,20 +32,15 @@ class StaffTableAdapter(private val onStatusChanged: (String, Boolean) -> Unit) 
             tvTableNumber.text = "Table ${table.tableNumber}"
             tvArea.text = "Seats: ${table.seatCount} | ${table.area}"
 
-            // Remove listener temporarily to prevent firing when scrolling
             switchAvailability.setOnCheckedChangeListener(null)
 
-            // 1. Set the initial switch state and text based on the database
             val isInitiallyAvailable = table.status == "Available"
             switchAvailability.isChecked = isInitiallyAvailable
             switchAvailability.text = if (isInitiallyAvailable) "Available" else "Unavailable"
 
-            // Re-attach listener
             switchAvailability.setOnCheckedChangeListener { _, isChecked ->
-                // 2. Dynamically change the text the exact moment the staff taps the toggle
                 switchAvailability.text = if (isChecked) "Available" else "Unavailable"
 
-                // Send the update to the server
                 onStatusChanged(table.id, isChecked)
             }
         }

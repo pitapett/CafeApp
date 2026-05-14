@@ -33,7 +33,7 @@ class ManageStockActivity : AppCompatActivity() {
         observeViewModel()
 
         findViewById<FloatingActionButton>(R.id.fabAddStock).setOnClickListener {
-            showStockDialog(null) // null means Add new
+            showStockDialog(null)
         }
 
         viewModel.fetchStock()

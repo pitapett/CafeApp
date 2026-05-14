@@ -35,10 +35,8 @@ class CartDetailActivity : AppCompatActivity() {
         observeViewModel()
 
         findViewById<Button>(R.id.btnFinalCheckout).setOnClickListener {
-            // Clear focus to force the last EditText to save its note
             currentFocus?.clearFocus()
 
-            // TODO: Get actual staff UUID from SharedPreferences
             val staffId = "b3a1c8f2-9d4e-4b2a-8f1c-7e3d9a2b5c4f"
             viewModel.checkoutCart(tableNumber, staffId)
         }
@@ -67,8 +65,6 @@ class CartDetailActivity : AppCompatActivity() {
                         adapter.submitList(items)
                         val total = items.sumOf { it.price * it.quantity }
                         tvTotal.text = "Rp ${total.toInt()}"
-
-                        // Close screen if cart becomes empty
                         if (items.isEmpty() && !isFinishing) {
                             Toast.makeText(this@CartDetailActivity, "Cart is empty", Toast.LENGTH_SHORT).show()
                             finish()

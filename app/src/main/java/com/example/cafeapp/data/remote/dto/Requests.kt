@@ -7,11 +7,11 @@ data class CreateOrderRequest(
 )
 
 data class OrderItemRequest(
-    val menuId: String, // Ensure this matches the ID type in your Menu table
+    val menuId: String,
     val quantity: Int,
     val price: Double,
-    val tableId: String, // Node.js reads this as table_number
-    val userId: String,  // Node.js reads this as the staff ID
+    val tableId: String,
+    val userId: String,
     val customization: String = ""
 )
 

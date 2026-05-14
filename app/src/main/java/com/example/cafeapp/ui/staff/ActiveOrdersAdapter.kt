@@ -33,8 +33,6 @@ class ActiveOrdersAdapter(private val onPayClicked: (ProcessOrderResponse) -> Un
             tvTableNumber.text = "Table ${order.tableInformation?.table_number ?: "?"}"
             tvOrderType.text = order.order_type
             tvTotalPrice.text = "Rp ${order.total_price}"
-
-            // If it's already paid, hide the button
             if (order.payment?.status == "Paid") {
                 btnProcessPayment.visibility = View.GONE
             } else {

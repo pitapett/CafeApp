@@ -2,16 +2,15 @@ package com.example.cafeapp.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-// Maps to your TableInformation.ts model
+
 data class TableResponse(
     val id: String,
     @SerializedName("table_number") val tableNumber: Int,
     @SerializedName("seat_count") val seatCount: Int,
     val area: String,
-    val status: String // 'Unavailable' | 'Available'
+    val status: String
 )
 
-// Maps to your Menu.ts model
 data class MenuResponse(
     val id: String,
     val name: String,
@@ -21,7 +20,6 @@ data class MenuResponse(
     val description: String
 )
 
-// Standard response wrapper for actions like payment
 data class BaseResponse(
     val message: String,
     val success: Boolean
@@ -29,12 +27,12 @@ data class BaseResponse(
 
 data class OrderResponse(
     val success: Boolean,
-    val message: String? = null, // Backend sends this on failure
-    val data: OrderData? = null  // Backend sends this on success
+    val message: String? = null,
+    val data: OrderData? = null
 )
 
 data class OrderData(
-    val id: String, // Your backend uses UUIDs (uuidv4)
+    val id: String,
     val status: String,
     val total_price: Int
 )
@@ -45,7 +43,7 @@ data class StockResponse(
     val amount: Int
 )
 
-// DTOs for the Active Orders screen
+
 data class ProcessOrderResponse(
     val id: String,
     val order_type: String,

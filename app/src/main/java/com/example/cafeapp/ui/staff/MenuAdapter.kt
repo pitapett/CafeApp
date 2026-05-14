@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cafeapp.R
 import com.example.cafeapp.data.local.entity.MenuEntity
 
-// 1. Add the click listener function as a parameter here
 class MenuAdapter(private val onAddClicked: (MenuEntity) -> Unit) :
     ListAdapter<MenuEntity, MenuAdapter.MenuViewHolder>(MenuDiffCallback()) {
 
@@ -26,7 +25,6 @@ class MenuAdapter(private val onAddClicked: (MenuEntity) -> Unit) :
         holder.bind(menu)
     }
 
-    // 2. Accept the click listener in the ViewHolder
     class MenuViewHolder(itemView: View, private val onAddClicked: (MenuEntity) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val tvName: TextView = itemView.findViewById(R.id.tvMenuName)
         private val tvCategory: TextView = itemView.findViewById(R.id.tvMenuCategory)

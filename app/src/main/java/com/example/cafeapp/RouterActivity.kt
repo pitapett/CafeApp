@@ -14,8 +14,6 @@ class RouterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // We do NOT call setContentView() because this screen has no UI.
         routeDevice()
     }
 
@@ -37,7 +35,6 @@ class RouterActivity : AppCompatActivity() {
             }
         }
 
-        // Close the RouterActivity so the user can't press 'Back' to return to it.
         finish()
     }
 }

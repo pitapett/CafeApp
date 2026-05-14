@@ -87,7 +87,7 @@ class OrderRepository(
                     quantity = item.quantity,
                     price = item.price,
                     tableId = tableNumber,
-                    userId = "2ef63ed0-aaed-4035-9970-86d344ce20e7", // hard coded
+                    userId = "2ef63ed0-aaed-4035-9970-86d344ce20e7", // hard coded userId that has staff role
                     customization = item.customization
                 )
             }

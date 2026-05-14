@@ -30,8 +30,7 @@ interface CafeApiService {
     @GET("stock/all")
     suspend fun getAllStock(): Response<List<StockResponse>>
 
-    // --- ADMIN STOCK ROUTES ---
-    @GET("stock/all")
+
 
     @POST("stock/create")
     suspend fun createStock(@Body request: StockRequest): Response<StockResponse>

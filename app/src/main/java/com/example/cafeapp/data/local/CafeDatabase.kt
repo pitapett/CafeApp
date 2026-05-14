@@ -13,7 +13,7 @@ import com.example.cafeapp.data.local.entity.MenuEntity
 abstract class CafeDatabase : RoomDatabase() {
 
     abstract fun menuDao(): MenuDao
-    abstract fun draftCartDao(): DraftCartDao // ADD THIS LINE
+    abstract fun draftCartDao(): DraftCartDao
 
     companion object {
         @Volatile
@@ -26,7 +26,7 @@ abstract class CafeDatabase : RoomDatabase() {
                     CafeDatabase::class.java,
                     "cafe_local_database"
                 )
-                    .fallbackToDestructiveMigration() // ADD THIS LINE (Prevents crashes when changing schema)
+                    .fallbackToDestructiveMigration()
                     .build()
 
                 INSTANCE = instance

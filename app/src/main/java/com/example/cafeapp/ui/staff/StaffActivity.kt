@@ -68,7 +68,6 @@ package com.example.cafeapp.ui.staff // Update package name
         }
 
         private fun observeViewModel() {
-            // It's best practice to find these views ONCE outside the loop
             val layoutCart = findViewById<LinearLayout>(R.id.layoutBottomCart)
             val tvCount = findViewById<TextView>(R.id.tvCartCount)
             val tvTotal = findViewById<TextView>(R.id.tvCartTotal)
@@ -76,14 +75,12 @@ package com.example.cafeapp.ui.staff // Update package name
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                    // 1. Launch the Menu Observer independently
                     launch {
                         viewModel.menuState.collect { menus ->
                             menuAdapter.submitList(menus)
                         }
                     }
 
-                    // 2. Launch the Cart Observer independently
                     launch {
                         viewModel.liveCart.collect { cartItems ->
                             Log.w("CafeCart", "UI received cart update! Items in database: ${cartItems.size}")
@@ -91,12 +88,9 @@ package com.example.cafeapp.ui.staff // Update package name
                                 layoutCart.visibility = View.GONE
                             } else {
                                 layoutCart.visibility = View.VISIBLE
-
-                                // Calculate totals
                                 val totalItems = cartItems.sumOf { it.quantity }
                                 val totalPrice = cartItems.sumOf { it.price * it.quantity }
 
-                                // Update UI
                                 tvCount.text = "$totalItems Items"
                                 tvTotal.text = "Rp ${totalPrice.toInt()}"
                             }
