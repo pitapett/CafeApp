@@ -1,4 +1,4 @@
-package com.example.cafeapp.viewmodel
+package com.example.cafeapp.feature.staff.cart
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,20 +9,31 @@ import com.example.cafeapp.data.remote.RetrofitClient
 import com.example.cafeapp.data.repository.OrderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class CartDetailViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: OrderRepository // <-- Change to OrderRepository
+    private val repository: OrderRepository
 
     init {
         val menuDao = CafeDatabase.getDatabase(application).menuDao()
         val draftCartDao = CafeDatabase.getDatabase(application).draftCartDao()
-        repository = OrderRepository(RetrofitClient.api, menuDao, draftCartDao) // <-- Change to OrderRepository
+        repository = OrderRepository(
+            RetrofitClient.api,
+            menuDao,
+            draftCartDao
+        )
     }
 
-    val liveCart = repository.getLiveCartStream()
+    // 🌟 UPDATED: Convert liveCart to StateFlow for Compose
+    val liveCartState = repository.getLiveCartStream().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
     private val _checkoutResult = MutableSharedFlow<Boolean>()
     val checkoutResult = _checkoutResult.asSharedFlow()
@@ -30,7 +41,6 @@ class CartDetailViewModel(application: Application) : AndroidViewModel(applicati
     fun updateQuantity(item: DraftCartEntity, isIncrease: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (isIncrease) {
-                // DO NOT do item.quantity += 1. Use .copy() instead!
                 val updatedItem = item.copy(quantity = item.quantity + 1)
                 repository.updateCartItem(updatedItem)
             } else {
@@ -46,7 +56,6 @@ class CartDetailViewModel(application: Application) : AndroidViewModel(applicati
 
     fun updateCustomization(item: DraftCartEntity, newNote: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            // Also fixed this one to prevent text jumping bugs!
             val updatedItem = item.copy(customization = newNote)
             repository.updateCartItem(updatedItem)
         }

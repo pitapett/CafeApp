@@ -1,4 +1,4 @@
-package com.example.cafeapp.viewmodel
+package com.example.cafeapp.feature.staff.menu
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -14,22 +14,31 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-// We use AndroidViewModel instead of ViewModel because we need the Application context to open the Room Database
 class StaffMenuViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: OrderRepository // <-- Change to OrderRepository
+    private val repository: OrderRepository
 
     init {
         val menuDao = CafeDatabase.getDatabase(application).menuDao()
         val draftCartDao = CafeDatabase.getDatabase(application).draftCartDao()
-        repository = OrderRepository(RetrofitClient.api, menuDao, draftCartDao) // <-- Change to OrderRepository
+        repository = OrderRepository(
+            RetrofitClient.api,
+            menuDao,
+            draftCartDao
+        )
     }
 
-    // Convert the Room Flow into a StateFlow so the UI can easily observe it
     val menuState = repository.getMenuStream().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Companion.WhileSubscribed(5000),
-        initialValue = emptyList<MenuEntity>()
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
+
+    // 🌟 UPDATED: Convert liveCart to StateFlow for Compose
+    val liveCartState = repository.getLiveCartStream().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList() // Assuming it returns a List<DraftCartEntity>
     )
 
     fun syncMenuWithServer() {
@@ -38,10 +47,7 @@ class StaffMenuViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    val liveCart = repository.getLiveCartStream()
-
     fun addToCart(menuItem: MenuEntity) {
-        // Database writes MUST happen on the background (IO) thread
         viewModelScope.launch(Dispatchers.IO) {
             repository.addToCart(menuItem)
         }
@@ -50,7 +56,6 @@ class StaffMenuViewModel(application: Application) : AndroidViewModel(applicatio
     private val _checkoutResult = MutableSharedFlow<Boolean>()
     val checkoutResult = _checkoutResult.asSharedFlow()
 
-    // Change checkoutCart to accept the parameters
     fun checkoutCart(tableNumber: String, staffId: String) {
         viewModelScope.launch {
             val success = repository.processCheckout(tableNumber, staffId)

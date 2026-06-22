@@ -1,4 +1,4 @@
-package com.example.cafeapp.viewmodel
+package com.example.cafeapp.feature.staff.tablestatus
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -34,17 +34,16 @@ class StaffTableViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun toggleTableStatus(id: String, isAvailable: Boolean) {
+    // 🌟 UPDATED: Now accepts the exact string from the UI dialog
+    fun updateTableStatus(id: String, newStatus: String) {
         viewModelScope.launch {
             try {
-                val newStatus = if (isAvailable) "Available" else "Unavailable"
                 val response = repository.updateTableStatus(id, newStatus)
-
                 if (response.isSuccessful) {
                     fetchTables() // Refresh the list to show the new status
                 }
             } catch (e: Exception) {
-                // In a production app, you might want to show a Toast here if it fails
+                // In a production app, you might want to emit an error state here
             }
         }
     }

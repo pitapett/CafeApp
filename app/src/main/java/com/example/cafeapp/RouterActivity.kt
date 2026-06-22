@@ -6,8 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cafeapp.feature.admin.AdminActivity
-import com.example.cafeapp.feature.staff.StaffDashboardActivity
 
 class RouterActivity : AppCompatActivity() {
 
